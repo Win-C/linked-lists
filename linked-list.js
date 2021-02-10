@@ -27,9 +27,19 @@ class LinkedList {
   push(val) {
     let newNode = new Node(val);
 
-    if (this.head === null) this.head = newNode;
-    if (this.tail !== null) this.tail.next = newNode;
-    this.tail = newNode;
+    // Explicit paths: if LL is empty vs. not
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = this.head;
+    } else {
+      this.tail.next = newNode;
+      this.tail = newNode;
+    }
+
+    // if (this.head === null) this.head = newNode;
+    // if (this.tail !== null) this.tail.next = newNode;
+    // this.tail = newNode;
+
     this.length++;
   }
 
@@ -38,36 +48,47 @@ class LinkedList {
   unshift(val) {
     let newNode = new Node(val);
 
-    newNode.next = this.head;
-    this.head = newNode;
-    this.length++;
+    // Explicit paths: if LL is empty vs. not
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = this.head;
+    } else {
+      newNode.next = this.head;
+      this.head = newNode;
+    }
 
-    // check if tail is null
-    if (this.tail === null) this.tail = newNode;
+    // newNode.next = this.head;
+    // this.head = newNode;
+    // if (this.tail === null) this.tail = newNode;
+
+    this.length++;
   }
 
   /** pop(): return & remove last item. */
 
   pop() {
-    let removedNode = this.tail;
-    let current = this.head;
-    let prevNode = null;
+    // Better strategy: use class method to remove from end of LL
+    return this.removeAt(this.length - 1);
 
-    if (this.length === 0) throw Error("no items in linked list");
+    // let removedNode = this.tail;
+    // let current = this.head;
+    // let prevNode = null;
 
-    while (current !== null){
-      if (current.val === removedNode.val){
-        this.tail = prevNode;
-        this.length--;
-      }
-      prevNode = current;
-      current = current.next
-    }
+    // if (this.length === 0) throw Error("no items in linked list");
 
-    // if list is now empty, set head to null
-    if (this.length === 0) this.head = null;
+    // while (current !== null){
+    //   if (current.val === removedNode.val){
+    //     this.tail = prevNode;
+    //     this.length--;
+    //   }
+    //   prevNode = current;
+    //   current = current.next
+    // }
 
-    return removedNode.val;
+    // // if list is now empty, set head to null
+    // if (this.length === 0) this.head = null;
+
+    // return removedNode.val;
   }
 
   /** shift(): return & remove first item. */
@@ -83,7 +104,7 @@ class LinkedList {
 
     // If length becomes 0 or 1, set tail equal to head
     if (this.length <= 1) this.tail = newHead;
-    
+
     return oldHead.val;
   }
 
@@ -95,28 +116,28 @@ class LinkedList {
 
     if (this.length === 0) throw Error("no items in linked list");
 
-    if (idx > this.length) throw Error("error! invalid index"); 
-    
-    while (counter < idx){
+    if (idx > this.length) throw Error("error! invalid index");
+
+    while (counter < idx && current !== null) {
       current = current.next;
       counter++;
     }
-    
+
     return current.val;
   }
-  
+
   /** setAt(idx, val): set val at idx to val */
-  
+
   setAt(idx, val) {
     let current = this.head;
     let counter = 0;
 
     if (this.length === 0) throw Error("no items in linked list");
 
-    if (idx > this.length) throw Error("error! invalid index"); 
+    if (idx > this.length) throw Error("error! invalid index");
 
     // Note: repeating from method above. Refactor?
-    while (counter < idx){
+    while (counter < idx) {
       current = current.next;
       counter++;
     }
@@ -131,7 +152,7 @@ class LinkedList {
     let counter = 0;
     let prevNode = null;
     let newNode = new Node(val);
-    
+
     // if empty list, add one item and return
     if (this.length === 0) {
       this.head = new Node(val);
@@ -140,9 +161,9 @@ class LinkedList {
       return;
     }
 
-    if (idx > this.length) throw Error("error! invalid index"); 
+    if (idx > this.length) throw Error("error! invalid index");
 
-    while (counter < idx){
+    while (counter < idx) {
       prevNode = current;
       current = current.next;
       counter++;
@@ -167,11 +188,11 @@ class LinkedList {
 
     if (this.length === 0) throw Error("no items in linked list");
 
-    if (idx > this.length) throw Error("error! invalid index"); 
+    if (idx > this.length) throw Error("error! invalid index");
 
     if (idx === 0) return this.shift();
-    
-    while (counter < idx){
+
+    while (counter < idx) {
       prevNode = current;
       current = current.next;
       nextNode = current.next;
@@ -181,7 +202,7 @@ class LinkedList {
     this.length--;
 
     // check if removing one item results in an empty list
-    if (this.length === 0){
+    if (this.length === 0) {
       this.head = null;
       this.tail = null;
       return current.val;
@@ -190,7 +211,7 @@ class LinkedList {
     prevNode.next = nextNode;
 
     // check if removing last item in list to set tail
-    this.tail = nextNode === null ? prevNode : nextNode; 
+    this.tail = nextNode === null ? prevNode : nextNode;
 
     return current.val;
   }
@@ -203,7 +224,7 @@ class LinkedList {
 
     if (this.length === 0) return 0;
 
-    while (current !== null){
+    while (current !== null) {
       sum += current.val;
       current = current.next;
     }
