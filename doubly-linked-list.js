@@ -5,21 +5,40 @@
 class Node {
   val = null;
   next = null;
+  prev = null;
 
   constructor(val) {
     this.val = val;
   }
 }
 
-/** LinkedList: chained together nodes. */
+/** DoublyLinkedList: chained together nodes. */
 
-class LinkedList {
+class DoublyLinkedList {
   head = null;
   tail = null;
   length = 0;
 
   constructor(vals = []) {
     for (let val of vals) this.push(val);
+  }
+
+  /** push(val): add new value to end of list. */
+
+  push(val){
+    let newNode = new Node(val);
+
+    if(!this.head){
+      this.head = newNode;
+    }
+  }
+
+  getNext(){
+
+  }
+
+  getPrev(){
+
   }
 
 }
