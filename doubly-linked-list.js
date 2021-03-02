@@ -30,7 +30,14 @@ class DoublyLinkedList {
 
     if(!this.head){
       this.head = newNode;
+      this.tail = this.head;
+    } else{
+      newNode.prev = this.tail;
+      this.tail.next = newNode;
+      this.tail = newNode;
     }
+
+    this.length++;
   }
 
   getNext(){
@@ -41,4 +48,36 @@ class DoublyLinkedList {
 
   }
 
+
+  /** unshift(val): add new value to start of list */
+
+  unshift(val){
+    let newNode = new Node(val);
+
+    if(!this.head){
+      this.head = newNode;
+      this.tail = this.head;
+    } else {
+      newNode.next = this.head;
+      this.head.prev = newNode;
+      this.head = newNode;
+    }
+
+    this.length++;
+  }
+
+
+  /** pop(): return & remove last item. */
+
+  pop(){
+    return this.removeAt(this.length - 1);
+  }
+
+  /** removeAt(idx): return & remove item at idx. */
+
+  removeAt(idx){
+    
+  }
 }
+
+module.exports = DoublyLinkedList;
